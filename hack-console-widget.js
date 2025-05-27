@@ -9,11 +9,57 @@
     const style = document.createElement('style');
     style.id = 'hack-console-style';
     style.textContent = `
-      .hack-console-widget { position: fixed; top: 0; left: 0; width: 100%; max-height: 40vh; min-height: 150px; background: black; color: #0f0; font-family: monospace; padding: 1em 2em; box-sizing: border-box; overflow-y: auto; border-bottom: 2px solid #0f0; resize: vertical; z-index: 9999; text-align: center; user-select: text; }
-      .hack-console-widget-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-      .hack-console-widget h1, .hack-console-widget-console { position: relative; z-index: 1; }
-      .hack-console-widget-console { background: rgba(0,0,0,0.8); padding: 1em 0 2em 0; max-height: calc(40vh - 4em); overflow-y: auto; text-align: left; white-space: pre-wrap; word-wrap: break-word; }
-      .hack-console-widget-footer { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; text-align: center; color: #0f0; font-size: 1em; padding-bottom: 0.5em; z-index: 2; pointer-events: none; }
+      .hack-console-widget {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        max-height: 40vh;
+        min-height: 150px;
+        background: black;
+        color: #0f0;
+        font-family: monospace;
+        padding: 1em 2em;
+        box-sizing: border-box;
+        overflow: hidden;
+        border-bottom: 2px solid #0f0;
+        resize: vertical;
+        z-index: 9999;
+        text-align: center;
+        user-select: text;
+      }
+      .hack-console-widget-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .hack-console-widget h1, .hack-console-widget-author, .hack-console-widget-console {
+        position: relative;
+        z-index: 1;
+      }
+      .hack-console-widget-author {
+        color: #0f0;
+        font-size: 1em;
+        margin-bottom: 0.5em;
+        z-index: 2;
+        pointer-events: none;
+        text-align: center;
+        position: relative;
+      }
+      .hack-console-widget-console {
+        background: rgba(0,0,0,0.8);
+        padding: 1em 0 2em 0;
+        max-height: calc(40vh - 6em);
+        overflow-y: auto;
+        text-align: left;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      .hack-console-widget-footer { display: none; }
     `;
     document.head.appendChild(style);
   }
@@ -26,8 +72,8 @@
       <div class="hack-console-widget" style="position:fixed;top:0;left:0;width:100%;">
         <canvas class="hack-console-widget-canvas"></canvas>
         <h1>Console Virtuelle</h1>
+        <div class="hack-console-widget-author">by Antoine Douilly</div>
         <div class="hack-console-widget-console"></div>
-        <div class="hack-console-widget-footer">by Antoine Douilly</div>
       </div>
     `;
     document.body.appendChild(hackConsoleRoot);
