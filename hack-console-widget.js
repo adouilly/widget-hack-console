@@ -63,6 +63,18 @@
         text-align: left;
         white-space: pre-wrap;
         word-wrap: break-word;
+        color: #fff;
+        /* Scrollbar styles will be set dynamically */
+      }
+      .hack-console-widget-console::-webkit-scrollbar {
+        width: 10px;
+      }
+      .hack-console-widget-console::-webkit-scrollbar-thumb {
+        background: var(--matrix-scroll-color, #0f0);
+        border-radius: 5px;
+      }
+      .hack-console-widget-console::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.2);
       }
       .hack-console-widget-footer { display: none; }
     `;
@@ -130,6 +142,11 @@
       matrixColor = matrixColors[colorIndex];
       const h1 = hackConsoleRoot.querySelector('h1');
       if (h1) h1.style.color = matrixColor;
+      const author = hackConsoleRoot.querySelector('.hack-console-widget-author');
+      if (author) author.style.color = matrixColor;
+      // Changer la couleur de la scrollbar via CSS variable
+      const consoleDiv = hackConsoleRoot.querySelector('.hack-console-widget-console');
+      if (consoleDiv) consoleDiv.style.setProperty('--matrix-scroll-color', matrixColor);
     }
     function drawMatrix(now) {
       if (!lastMatrixDraw || now - lastMatrixDraw > 33) {
