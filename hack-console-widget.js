@@ -99,11 +99,44 @@
   function patchConsole() {
     const divConsole = hackConsoleRoot.querySelector('.hack-console-widget-console');
     oldLog = console.log;
+    // Ajout d'un rendu type console.table pour les tableaux/objets
+    function renderTable(obj) {
+      let html = '<table style="border-collapse:collapse;margin:8px 0;">';
+      if (Array.isArray(obj)) {
+        // Tableau d'objets ou de valeurs
+        const isArrayOfObjects = obj.length && typeof obj[0] === 'object' && obj[0] !== null;
+        if (isArrayOfObjects) {
+          const keys = Array.from(new Set(obj.flatMap(o => Object.keys(o))));
+          html += '<tr>' + keys.map(k => `<th style="border:1px solid #888;padding:2px 6px;color:#fff;background:#222;">${k}</th>`).join('') + '</tr>';
+          obj.forEach(row => {
+            html += '<tr>' + keys.map(k => `<td style="border:1px solid #444;padding:2px 6px;color:#fff;">${row[k] ?? ''}</td>`).join('') + '</tr>';
+          });
+        } else {
+          html += '<tr><th style="border:1px solid #888;padding:2px 6px;color:#fff;background:#222;">Index</th><th style="border:1px solid #888;padding:2px 6px;color:#fff;background:#222;">Value</th></tr>';
+          obj.forEach((v,i) => {
+            html += `<tr><td style="border:1px solid #444;padding:2px 6px;color:#fff;">${i}</td><td style="border:1px solid #444;padding:2px 6px;color:#fff;">${v}</td></tr>`;
+          });
+        }
+      } else if (typeof obj === 'object' && obj !== null) {
+        html += '<tr><th style="border:1px solid #888;padding:2px 6px;color:#fff;background:#222;">Key</th><th style="border:1px solid #888;padding:2px 6px;color:#fff;background:#222;">Value</th></tr>';
+        Object.entries(obj).forEach(([k,v]) => {
+          html += `<tr><td style="border:1px solid #444;padding:2px 6px;color:#fff;">${k}</td><td style="border:1px solid #444;padding:2px 6px;color:#fff;">${v}</td></tr>`;
+        });
+      }
+      html += '</table>';
+      return html;
+    }
     console.log = function(...args) {
       oldLog.apply(console, args);
-      const ligne = document.createElement('div');
-      ligne.textContent = args.join(' ');
-      divConsole.appendChild(ligne);
+      args.forEach(arg => {
+        const ligne = document.createElement('div');
+        if (Array.isArray(arg) || (typeof arg === 'object' && arg !== null)) {
+          ligne.innerHTML = renderTable(arg);
+        } else {
+          ligne.textContent = arg;
+        }
+        divConsole.appendChild(ligne);
+      });
       divConsole.scrollTop = divConsole.scrollHeight;
     };
   }
