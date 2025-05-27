@@ -114,15 +114,20 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%';
-    let matrixColor = '#0f0', lastMatrixDraw = 0, lastColorChange = 0;
-    function randomGreenColor() {
-      const g = 128 + Math.floor(Math.random() * 128);
-      const r = Math.floor(Math.random() * 40);
-      const b = Math.floor(Math.random() * 40);
-      return `rgb(${r},${g},${b})`;
-    }
+    // Tableau de couleurs Matrix
+    const matrixColors = [
+      '#0f0', // vert
+      '#00f', // bleu
+      '#a0f', // violet
+      '#f00', // rouge
+      '#fa0', // orange
+      '#ff0'  // jaune
+    ];
+    let colorIndex = 0;
+    let matrixColor = matrixColors[colorIndex], lastMatrixDraw = 0, lastColorChange = 0;
     function changeMatrixColor() {
-      matrixColor = randomGreenColor();
+      colorIndex = (colorIndex + 1) % matrixColors.length;
+      matrixColor = matrixColors[colorIndex];
       const h1 = hackConsoleRoot.querySelector('h1');
       if (h1) h1.style.color = matrixColor;
     }
