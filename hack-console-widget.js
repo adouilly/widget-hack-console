@@ -14,8 +14,9 @@
         top: 0;
         left: 0;
         width: 100%;
-        max-height: 40vh;
+        height: 40vh;
         min-height: 150px;
+        max-height: 40vh;
         background: black;
         color: #0f0;
         font-family: monospace;
@@ -27,6 +28,8 @@
         z-index: 9999;
         text-align: center;
         user-select: text;
+        display: flex;
+        flex-direction: column;
       }
       .hack-console-widget-canvas {
         position: absolute;
@@ -53,7 +56,9 @@
       .hack-console-widget-console {
         background: rgba(0,0,0,0.8);
         padding: 1em 0 2em 0;
-        max-height: calc(40vh - 6em);
+        flex: 1 1 auto;
+        min-height: 0;
+        max-height: none;
         overflow-y: auto;
         text-align: left;
         white-space: pre-wrap;
@@ -69,11 +74,11 @@
     hackConsoleRoot = document.createElement('div');
     hackConsoleRoot.id = 'hack-console-root';
     hackConsoleRoot.innerHTML = `
-      <div class="hack-console-widget" style="position:fixed;top:0;left:0;width:100%;">
+      <div class="hack-console-widget" style="position:fixed;top:0;left:0;width:100%;display:flex;flex-direction:column;height:40vh;min-height:150px;max-height:40vh;">
         <canvas class="hack-console-widget-canvas"></canvas>
         <h1>Console Virtuelle</h1>
         <div class="hack-console-widget-author">by Antoine Douilly</div>
-        <div class="hack-console-widget-console"></div>
+        <div class="hack-console-widget-console" style="flex:1 1 auto;min-height:0;"></div>
       </div>
     `;
     document.body.appendChild(hackConsoleRoot);
