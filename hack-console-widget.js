@@ -23,7 +23,7 @@
         padding: 1em 2em;
         box-sizing: border-box;
         overflow: hidden;
-        border-bottom: 2px solid #0f0;
+        border-bottom: 2px solid var(--matrix-border-color, #0f0);
         resize: vertical;
         z-index: 9999;
         text-align: center;
@@ -147,6 +147,9 @@
       // Changer la couleur de la scrollbar via CSS variable
       const consoleDiv = hackConsoleRoot.querySelector('.hack-console-widget-console');
       if (consoleDiv) consoleDiv.style.setProperty('--matrix-scroll-color', matrixColor);
+      // Changer la couleur de la border-bottom via CSS variable
+      const widgetDiv = hackConsoleRoot.querySelector('.hack-console-widget');
+      if (widgetDiv) widgetDiv.style.setProperty('--matrix-border-color', matrixColor);
     }
     function drawMatrix(now) {
       if (!lastMatrixDraw || now - lastMatrixDraw > 33) {
