@@ -103,7 +103,6 @@
     function renderTable(obj) {
       let html = '<table style="border-collapse:collapse;margin:8px 0;">';
       if (Array.isArray(obj)) {
-        // Tableau d'objets ou de valeurs
         const isArrayOfObjects = obj.length && typeof obj[0] === 'object' && obj[0] !== null;
         if (isArrayOfObjects) {
           const keys = Array.from(new Set(obj.flatMap(o => Object.keys(o))));
@@ -137,6 +136,27 @@
         }
         divConsole.appendChild(ligne);
       });
+      divConsole.scrollTop = divConsole.scrollHeight;
+    };
+    // Ajout du support de console.table
+    const oldTable = console.table;
+    console.table = function(data, columns) {
+      if (oldTable) oldTable.apply(console, arguments);
+      const ligne = document.createElement('div');
+      let toRender = data;
+      if (columns && Array.isArray(data)) {
+        // Filtrer les colonnes si demandé
+        toRender = data.map(row => {
+          if (typeof row === 'object' && row !== null) {
+            const filtered = {};
+            columns.forEach(col => filtered[col] = row[col]);
+            return filtered;
+          }
+          return row;
+        });
+      }
+      ligne.innerHTML = renderTable(toRender);
+      divConsole.appendChild(ligne);
       divConsole.scrollTop = divConsole.scrollHeight;
     };
   }
