@@ -86,7 +86,7 @@
     hackConsoleRoot = document.createElement('div');
     hackConsoleRoot.id = 'hack-console-root';
     hackConsoleRoot.innerHTML = `
-      <div class="hack-console-widget" style="position:fixed;top:0;left:0;width:100%;display:flex;flex-direction:column;height:40vh;min-height:150px;max-height:40vh;">
+      <div class="hack-console-widget" style="position:fixed;top:0;left:0;width:100%;display:flex;flex-direction:column;height:40vh;min-height:150px;max-height:100vh;">
         <canvas class="hack-console-widget-canvas"></canvas>
         <h1>Console Virtuelle</h1>
         <div class="hack-console-widget-author">by Antoine Douilly</div>
